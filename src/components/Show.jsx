@@ -31,8 +31,8 @@ const Show = ({ selectedShow }) => {
   }, [show]);
 
   useEffect(() => {
-    setLoader(true);
     async function getCurrentShow() {
+      setLoader(true);
       const { loading, errors, data } = await getShow(
         location.pathname.replace("/show/", "")
       );
@@ -112,9 +112,11 @@ const Show = ({ selectedShow }) => {
                   {show && "Ended: " + show.ended}
                 </StyledMaterialIcon>
               </Article>
-              <Article>
-                <Button onClick={handleBack}>Back</Button>
-              </Article>
+              {show.ended && (
+                <Article>
+                  <Button onClick={handleBack}>Back</Button>
+                </Article>
+              )}
             </Section>
           </>
         )
