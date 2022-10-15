@@ -38,10 +38,11 @@ const LandingPage = ({ setSelectedShow }) => {
   useEffect(() => {
     let favorites = [];
     shows &&
-      shows.map((show) => {
-        if (show.id === 1 || show.id === 2 || show.id === 3)
-          favorites.push(show);
-      });
+      shows.map(
+        (show) =>
+          (show.id === 1 || show.id === 2 || show.id === 3) &&
+          favorites.push(show)
+      );
     setFavoriteShows(favorites);
   }, [shows]);
 
