@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getShow } from "../services";
-/* import { Loader } from "./Loader"; */
+import { Loader } from "./Loader";
 import {
   Article,
   ArticleTitle,
@@ -19,7 +19,7 @@ import StarsRating from "stars-rating";
 import { isMobile } from "react-device-detect";
 
 const Show = ({ selectedShow }) => {
-  /*  const [loader, setLoader] = useState(false); */
+  const [loader, setLoader] = useState(false);
   const [show, setShow] = useState([]);
   const [banner, setBanner] = useState("");
   const location = useLocation();
@@ -31,7 +31,7 @@ const Show = ({ selectedShow }) => {
   }, [show]);
 
   useEffect(() => {
-    /* setLoader(true); */
+    setLoader(true);
     async function getCurrentShow() {
       const { loading, errors, data } = await getShow(
         location.pathname.replace("/show/", "")
@@ -44,7 +44,7 @@ const Show = ({ selectedShow }) => {
       if (data) {
         setShow(data);
         setBanner(data.image.original);
-        /* setLoader(false); */
+        setLoader(false);
       }
     }
 
@@ -58,61 +58,66 @@ const Show = ({ selectedShow }) => {
 
   return (
     <>
-      {/* {loader && <Loader />} */}
-      <Banner banner={banner} />
-      {show && (
-        <Section>
-          <Article>
-            <ArticleTitle showPage>{show.name}</ArticleTitle>
-            <GenresWrapper stars>
-              <StarsRating
-                count={10}
-                size={isMobile ? 18 : 34}
-                value={show.rating && show.rating.average}
-                color2={"#ffd700"}
-                edit={false}
-              />
-              <div>{show.rating && show.rating.average + " (Average)"}</div>
-            </GenresWrapper>
-            <GenresWrapper>
-              {show.genres &&
-                show.genres.map((el) => {
-                  return <GenresDiv key={el}>{el}</GenresDiv>;
-                })}
-            </GenresWrapper>
-          </Article>
-          <Article>
-            <ShowDiv
-              dangerouslySetInnerHTML={{ __html: show && show.summary }}
-            ></ShowDiv>
-          </Article>
-          <Article>
-            <StyledMaterialIcon time>
-              {show && show.runtime + " min"}
-            </StyledMaterialIcon>
-          </Article>
-          {show.schedule &&
-            show.schedule.days.map((el) => (
-              <Article key={el}>
-                <StyledMaterialIcon schedule>
-                  {"Schedule: " + show.schedule.time + "h " + el}
+      {loader ? (
+        <Loader />
+      ) : (
+        show && (
+          <>
+            <Banner banner={banner} />
+            <Section>
+              <Article>
+                <ArticleTitle showPage>{show.name}</ArticleTitle>
+                <GenresWrapper stars>
+                  <StarsRating
+                    count={10}
+                    size={isMobile ? 18 : 34}
+                    value={show.rating && show.rating.average}
+                    color2={"#ffd700"}
+                    edit={false}
+                  />
+                  <div>{show.rating && show.rating.average + " (Average)"}</div>
+                </GenresWrapper>
+                <GenresWrapper>
+                  {show.genres &&
+                    show.genres.map((el) => {
+                      return <GenresDiv key={el}>{el}</GenresDiv>;
+                    })}
+                </GenresWrapper>
+              </Article>
+              <Article>
+                <ShowDiv
+                  dangerouslySetInnerHTML={{ __html: show && show.summary }}
+                ></ShowDiv>
+              </Article>
+              <Article>
+                <StyledMaterialIcon time>
+                  {show && show.runtime + " min"}
                 </StyledMaterialIcon>
               </Article>
-            ))}
-          <Article>
-            <StyledMaterialIcon premier>
-              {show && "Premiered: " + show.premiered}
-            </StyledMaterialIcon>
-          </Article>
-          <Article>
-            <StyledMaterialIcon>
-              {show && "Ended: " + show.ended}
-            </StyledMaterialIcon>
-          </Article>
-          <Article>
-            <Button onClick={handleBack}>Back</Button>
-          </Article>
-        </Section>
+              {show.schedule &&
+                show.schedule.days.map((el) => (
+                  <Article key={el}>
+                    <StyledMaterialIcon schedule>
+                      {"Schedule: " + show.schedule.time + "h " + el}
+                    </StyledMaterialIcon>
+                  </Article>
+                ))}
+              <Article>
+                <StyledMaterialIcon premier>
+                  {show && "Premiered: " + show.premiered}
+                </StyledMaterialIcon>
+              </Article>
+              <Article>
+                <StyledMaterialIcon>
+                  {show && "Ended: " + show.ended}
+                </StyledMaterialIcon>
+              </Article>
+              <Article>
+                <Button onClick={handleBack}>Back</Button>
+              </Article>
+            </Section>
+          </>
+        )
       )}
     </>
   );
