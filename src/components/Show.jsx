@@ -94,14 +94,16 @@ const Show = ({ selectedShow }) => {
                   {show && show.runtime + " min"}
                 </StyledMaterialIcon>
               </Article>
-              {show.schedule &&
-                show.schedule.days.map((el) => (
-                  <Article key={el}>
-                    <StyledMaterialIcon schedule>
-                      {"Schedule: " + show.schedule.time + "h " + el}
-                    </StyledMaterialIcon>
-                  </Article>
-                ))}
+
+              <Article>
+                <StyledMaterialIcon schedule>
+                  {show.schedule &&
+                    "Schedule: " +
+                      show.schedule.time +
+                      "h " +
+                      show.schedule.days.map((el) => el)}
+                </StyledMaterialIcon>
+              </Article>
               <Article>
                 <StyledMaterialIcon premier>
                   {show && "Premiered: " + show.premiered}
