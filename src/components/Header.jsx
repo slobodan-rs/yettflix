@@ -92,7 +92,7 @@ const Header = ({ setSelectedShow }) => {
   const handleRedirect = (el) => {
     setSelectedShow(el.show);
     navigate(`/show/${el.show.id}`);
-    window.location.reload(true);
+    setQuery("");
   };
 
   return (

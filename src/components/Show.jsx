@@ -112,7 +112,7 @@ const Show = ({ selectedShow }) => {
                   {show && "Ended: " + show.ended}
                 </StyledMaterialIcon>
               </Article>
-              {show.ended && (
+              {show.name && (
                 <Article>
                   <Button onClick={handleBack}>Back</Button>
                 </Article>
